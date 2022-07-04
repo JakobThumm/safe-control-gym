@@ -57,8 +57,8 @@ class Quadrotor(BaseAviary):
     INIT_STATE_RAND_INFO = {
         "init_x": {
             'distrib': "uniform",
-            'low': -0.5,
-            'high': 0.5
+            'low': -0.02,
+            'high': 0.02
         },
         "init_x_dot": {
             'distrib': "uniform",
@@ -67,8 +67,8 @@ class Quadrotor(BaseAviary):
         },
         "init_z": {
             'distrib': "uniform",
-            'low': 0.1,
-            'high': 1.5
+            'low': 0.98,
+            'high': 1.02
         },
         "init_z_dot": {
             'distrib': "uniform",
@@ -77,19 +77,19 @@ class Quadrotor(BaseAviary):
         },
         "init_theta": {
             'distrib': "uniform",
-            'low': -0.3,
-            'high': 0.3
+            'low': -0.1,
+            'high': 0.1
         },
         "init_theta_dot": {
             'distrib': "uniform",
-            'low': -0.01,
-            'high': 0.01
+            'low': -0.3,
+            'high': 0.3
         }
     }
 
     TASK_INFO = {
         "stabilization_goal": [0, 1],
-        "stabilization_goal_tolerance": 0.05,
+        "stabilization_goal_tolerance": 0.01,
         "trajectory_type": "circle",
         "num_cycles": 1,
         "trajectory_plane": "zx",
