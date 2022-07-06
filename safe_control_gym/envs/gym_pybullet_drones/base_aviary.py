@@ -228,8 +228,6 @@ class BaseAviary(BenchmarkEnv):
         self.rpy = np.zeros((self.NUM_DRONES, 3))
         self.vel = np.zeros((self.NUM_DRONES, 3))
         self.ang_v = np.zeros((self.NUM_DRONES, 3))
-        if self.PHYSICS == Physics.DYN:
-            self.rpy_rates = np.zeros((self.NUM_DRONES, 3))
         # Set PyBullet's parameters.
         p.resetSimulation(physicsClientId=self.PYB_CLIENT)
         p.setGravity(0, 0, -self.GRAVITY_ACC, physicsClientId=self.PYB_CLIENT)
@@ -237,6 +235,7 @@ class BaseAviary(BenchmarkEnv):
         p.setTimeStep(self.PYB_TIMESTEP, physicsClientId=self.PYB_CLIENT)
         p.setAdditionalSearchPath(pybullet_data.getDataPath(),
                                   physicsClientId=self.PYB_CLIENT)
+        self.TIMESTEP = self.PYB_TIMESTEP
         # Load ground plane, drone and obstacles models.
         self.PLANE_ID = p.loadURDF("plane.urdf", [0, 0, self.GROUND_PLANE_Z],
                                    physicsClientId=self.PYB_CLIENT)
@@ -527,7 +526,7 @@ class BaseAviary(BenchmarkEnv):
         quat = self.quat[nth_drone, :]
         rpy = self.rpy[nth_drone, :]
         vel = self.vel[nth_drone, :]
-        rpy_rates = self.rpy_rates[nth_drone, :]
+        rpy_rates = self.ang_v[nth_drone, :]
         rotation = np.array(p.getMatrixFromQuaternion(quat)).reshape(3, 3)
         # Compute forces and torques.
         forces = np.array(rpm**2) * self.KF
@@ -564,8 +563,6 @@ class BaseAviary(BenchmarkEnv):
             vel,
             rpy_rates,  # ang_vel not computed by DYN
             physicsClientId=self.PYB_CLIENT)
-        # Store the roll, pitch, yaw rates for the next step #
-        self.rpy_rates[nth_drone, :] = rpy_rates
 
     def _show_drone_local_axes(self, nth_drone):
         """Draws the local frame of the n-th drone in PyBullet's GUI.
