@@ -77,13 +77,13 @@ class Quadrotor(BaseAviary):
         },
         "init_theta": {
             'distrib': "uniform",
-            'low': 0.0,
-            'high': 0.0
+            'low': -0.01,
+            'high': 0.01
         },
         "init_theta_dot": {
             'distrib': "uniform",
-            'low': 0.0,
-            'high': 0.0
+            'low': -0.01,
+            'high': 0.01
         }
     }
 
