@@ -544,8 +544,8 @@ class BaseAviary(BenchmarkEnv):
             x_torque = (forces[1] - forces[3]) * self.L
             y_torque = (-forces[0] + forces[2]) * self.L
         torques = np.array([x_torque, y_torque, z_torque])
-        torques = torques - np.cross(rpy_rates, np.dot(self.J, rpy_rates))
-        rpy_rates_deriv = np.dot(self.J_INV, torques)
+        #torques = torques - np.cross(rpy_rates, np.dot(self.J, rpy_rates))
+        rpy_rates_deriv = np.dot(self.J_INV, torques) - np.array(rpy_rates**2)
         no_pybullet_dyn_accs = force_world_frame / self.MASS
         # Update state.
         vel = vel + self.TIMESTEP * no_pybullet_dyn_accs
